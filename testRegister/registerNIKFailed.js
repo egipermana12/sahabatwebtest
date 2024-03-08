@@ -65,7 +65,7 @@ async function testNIKles16(){
     catch(error){
         console.error("Error occurred:", error.message);
     }finally{
-        // await driver.quit();
+        await driver.quit();
     }
 }
 
