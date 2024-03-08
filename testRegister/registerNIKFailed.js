@@ -12,15 +12,24 @@ const url = `${process.env.BASE_URL}register`;
 async function testNIKles16(){
 
     const inputData = [
-        { nik: '320208050491000', nama: 'suhanda', pass: '123456', repass: '123456' },
+        { nik: '', nama: 'suhanda', pass: '123456', repass: '123456' },
     ];
 
     //launch the browser
-    let driver = await new Builder().forBrowser("chrome").build();
+    let driver;
 
     try{
+        //launch
+
+        driver = await new Builder().forBrowser("chrome").build();
+
+        driver.manage().window().maximize();
+
         //alamat web
         await driver.get(url);
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmnik').removeAttribute('required');");
 
         
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
@@ -37,7 +46,7 @@ async function testNIKles16(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(15000);
+        await driver.sleep(5000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -49,11 +58,12 @@ async function testNIKles16(){
         // Get SweetAlert text
         const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
         const sweetAlertText = await sweetAlertTextElement.getText();
-        console.log('SweetAlert Text:', sweetAlertText);
-        assert.strictEqual(texsweetAlertTextt, "NIK Harus 16 Karakter!");
+        
+        assert.strictEqual(sweetAlertText, "NIK Harus 16 Karakter!");
+
     }
     catch(error){
-        console.error("Error occurred:", error);
+        console.error("Error occurred:", error.message);
     }finally{
         // await driver.quit();
     }
