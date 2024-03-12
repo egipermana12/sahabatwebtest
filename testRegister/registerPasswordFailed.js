@@ -190,12 +190,12 @@ async function passwordNotalfalower(){
 
 /**
  * @return {[string]}
- * @function passwordConfirmNotSame
+ * @function passwordCOnfirmNull
  * @assert {[Confirm Password Salah!]}
  */
-async function passworConfirmNotSame(){
+async function passwordConfirmNull(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123', repass: '1234' },
+        { nik: '3202080504910003', nama: 'suhanda', pass: '123456', repass: '' },
     ];
 
     let driver;
@@ -206,6 +206,8 @@ async function passworConfirmNotSame(){
 
         //alamat web
         await driver.get(url);
+
+         await driver.executeScript("document.getElementById('confirmPassword').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
@@ -248,12 +250,12 @@ async function passworConfirmNotSame(){
 
 /**
  * @return {[string]}
- * @function passwordCOnfirmNull
+ * @function passwordConfirmNotSame
  * @assert {[Confirm Password Salah!]}
  */
-async function passwordConfirmNull(){
+async function passworConfirmNotSame(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123456', repass: '' },
+        { nik: '3202080504910003', nama: 'suhanda', pass: '123', repass: '1234' },
     ];
 
     let driver;
@@ -264,8 +266,6 @@ async function passwordConfirmNull(){
 
         //alamat web
         await driver.get(url);
-
-         await driver.executeScript("document.getElementById('confirmPassword').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);

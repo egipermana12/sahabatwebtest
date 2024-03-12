@@ -12,7 +12,7 @@ const url = `${process.env.BASE_URL}register`;
 /**
  * @return {string}
  * @function cbSetujuNotCheck
- * @assert {[]}
+ * @assert {[Belum ceklist persetujuan!]}
  */
 async function cbSetujuNotCheck(){
     const inputData = [
