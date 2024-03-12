@@ -7,7 +7,8 @@ loadEnvConfig();
 //fungsi assert
 const assert = require("assert");
 
-const url = `${process.env.BASE_URL}register`;
+const url = `${process.env.BASE_URL}login`;
+
 
 /**
  * @return {[string]}
@@ -16,7 +17,7 @@ const url = `${process.env.BASE_URL}register`;
  */
 async function testCaptchaNull(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F' },
+        { nik: '3202080504910003', pass: 'a123456F' },
     ];
 
     let driver;
@@ -32,23 +33,13 @@ async function testCaptchaNull(){
         await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
-        await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
         await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
-        await driver.findElement(By.id("confirmPassword")).sendKeys(inputData[0].repass);
-
-        //checkbox checked
-        const checkbox = await driver.findElement(By.xpath("//div[@class='login_settingRememberMe']/input[@id='rememberme']"));
-        // Gulir ke elemen
-        await driver.executeScript('arguments[0].scrollIntoView(false)', checkbox);
-        await driver.sleep(500);
-        // Klik checkbox
-        await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(2000);
 
         //click button daftar
-        const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
+        const button = await driver.findElement(By.xpath('//a[@id="btLogin"]/button'));
         button.click();
 
         await driver.wait(until.elementLocated(By.className('swal2-popup')), 5000);
@@ -58,7 +49,7 @@ async function testCaptchaNull(){
         const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
         const sweetAlertText = await sweetAlertTextElement.getText();
 
-        assert.strictEqual(sweetAlertText, "Kata yang kamu lihat salah!");
+        assert.strictEqual(sweetAlertText, "Captcha Belum Diisi!");
         console.log('Test Captcha Not Null passed...');
     }catch(error){
         console.log('Test Captcha NULL failed...');
@@ -76,7 +67,7 @@ async function testCaptchaNull(){
  */
 async function testCaptchNotSame(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F', captcha: '890VWB' },
+        { nik: '3202080504910003', pass: 'a123456F', captcha: 'VBT021' },
     ];
 
     let driver;
@@ -90,24 +81,14 @@ async function testCaptchNotSame(){
 
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
-        await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
         await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
-        await driver.findElement(By.id("confirmPassword")).sendKeys(inputData[0].repass);
         await driver.findElement(By.id("fmcaptcha")).sendKeys(inputData[0].captcha);
 
-        //checkbox checked
-        const checkbox = await driver.findElement(By.xpath("//div[@class='login_settingRememberMe']/input[@id='rememberme']"));
-        // Gulir ke elemen
-        await driver.executeScript('arguments[0].scrollIntoView(false)', checkbox);
-        await driver.sleep(500);
-        // Klik checkbox
-        await checkbox.click();
-
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(2000);
 
         //click button daftar
-        const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
+        const button = await driver.findElement(By.xpath('//a[@id="btLogin"]/button'));
         button.click();
 
         await driver.wait(until.elementLocated(By.className('swal2-popup')), 5000);
@@ -129,8 +110,8 @@ async function testCaptchNotSame(){
 }
 
 async function runTest(){
-    await testCaptchaNull();
-    await testCaptchNotSame();
+	await testCaptchaNull();
+	await testCaptchNotSame();
 }
 
 runTest();

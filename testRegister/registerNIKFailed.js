@@ -9,6 +9,75 @@ const assert = require("assert");
 
 const url = `${process.env.BASE_URL}register`;
 
+
+/**
+ * @return {[string]}
+ * @function testNIKNull
+ * @assert {[NIK tidak boleh kosong]}
+ */
+
+async function testNIKNull(){
+
+    const inputData = [
+        { nik: '', nama: 'suhanda', pass: '123456', repass: '123456' },
+    ];
+
+    //launch the browser
+    let driver;
+
+    try{
+        //launch
+
+        driver = await new Builder().forBrowser("chrome").build();
+
+        driver.manage().window().maximize();
+
+        //alamat web
+        await driver.get(url);
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmnik').removeAttribute('required');");
+
+        await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
+        await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
+        await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
+        await driver.findElement(By.id("confirmPassword")).sendKeys(inputData[0].repass);
+
+        //checkbox checked
+        const checkbox = await driver.findElement(By.xpath("//div[@class='login_settingRememberMe']/input[@id='rememberme']"));
+        // Gulir ke elemen
+        await driver.executeScript('arguments[0].scrollIntoView(false)', checkbox);
+        await driver.sleep(500);
+        // Klik checkbox
+        await checkbox.click();
+
+        // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
+        await driver.sleep(10000);
+
+        //click button daftar
+        const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
+        button.click();
+
+        await driver.wait(until.elementLocated(By.className('swal2-popup')), 5000);
+
+        // Handle SweetAlert 2 if it appears
+        // Get SweetAlert text
+        const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
+        const sweetAlertText = await sweetAlertTextElement.getText();
+
+        assert.strictEqual(sweetAlertText, "NIK tidak boleh kosong");
+        console.log('Test NIK Null passed...');
+
+    }
+    catch(error){
+        console.log('Test NIK Null passed...');
+        console.error("Error occurred:", error.message);
+    }finally{
+        await driver.sleep(3000);
+        await driver.quit();
+    }
+}
+
 /**
  * @return {[string]}
  * @function testNIKles16
@@ -66,8 +135,8 @@ async function testNIKles16(){
     catch(error){
         console.log('Test NIK les 16 failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
@@ -133,40 +202,39 @@ async function testNIKmore16(){
     catch(error){
         console.log('Test NIK more 16 failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
 
+/**
+ * @return {[string]}
+ * @function testNonNumeric
+ * @assert {"NIK harus angka"}
+ */
+async function testNonNumeric(){}
+
 
 /**
  * @return {[string]}
- * @function testNIKNull
- * @assert {[NIK tidak boleh kosong]}
+ * @function testNIKTglSalah
+ * @assert {"NIK tidak valid! (Tanggal Salah!)"}
  */
-
-async function testNIKNull(){
-
+async function testNIKTglSalah(){
     const inputData = [
-        { nik: '', nama: 'suhanda', pass: '123456', repass: '123456' },
+        { nik: '3202083205910003', nama: 'suhanda', pass: '123456', repass: '123456' },
     ];
 
-    //launch the browser
     let driver;
 
     try{
-        //launch
-
         driver = await new Builder().forBrowser("chrome").build();
 
         driver.manage().window().maximize();
 
         //alamat web
         await driver.get(url);
-
-        //remove required nik
-        await driver.executeScript("document.getElementById('fmnik').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
@@ -195,24 +263,149 @@ async function testNIKNull(){
         const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
         const sweetAlertText = await sweetAlertTextElement.getText();
 
-        assert.strictEqual(sweetAlertText, "NIK tidak boleh kosong");
-        console.log('Test NIK Null passed...');
+        assert.strictEqual(sweetAlertText, "NIK tidak valid! (Tanggal Salah!)");
+        console.log('Test NIK tanggal salah passed...');
 
     }
     catch(error){
-        console.log('Test NIK Null passed...');
+        console.log('Test NIK tanggal salah failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
+        await driver.sleep(3000);
+        await driver.quit();
+    }
+}
+
+
+/**
+ * @return {[string]}
+ * @function testNIKBulanSalah
+ * @assert {"NIK tidak valid! (Bulan Salah!)"}
+ */
+async function testNIKBulanSalah(){
+    const inputData = [
+        { nik: '3202080513910003', nama: 'suhanda', pass: '123456', repass: '123456' },
+    ];
+
+    let driver;
+
+    try{
+        driver = await new Builder().forBrowser("chrome").build();
+
+        driver.manage().window().maximize();
+
+        //alamat web
+        await driver.get(url);
+
+        await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
+        await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
+        await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
+        await driver.findElement(By.id("confirmPassword")).sendKeys(inputData[0].repass);
+
+        //checkbox checked
+        const checkbox = await driver.findElement(By.xpath("//div[@class='login_settingRememberMe']/input[@id='rememberme']"));
+        // Gulir ke elemen
+        await driver.executeScript('arguments[0].scrollIntoView(false)', checkbox);
+        await driver.sleep(500);
+        // Klik checkbox
+        await checkbox.click();
+
+        // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
+        await driver.sleep(10000);
+
+        //click button daftar
+        const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
+        button.click();
+
+        await driver.wait(until.elementLocated(By.className('swal2-popup')), 5000);
+
+        // Handle SweetAlert 2 if it appears
+        // Get SweetAlert text
+        const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
+        const sweetAlertText = await sweetAlertTextElement.getText();
+
+        assert.strictEqual(sweetAlertText, "NIK tidak valid! (Bulan Salah!)");
+        console.log('Test NIK bulan salah passed...');
+
+    }
+    catch(error){
+        console.log('Test NIK bulan salah failed...');
+        console.error("Error occurred:", error.message);
+    }finally{
+        await driver.sleep(3000);
+        await driver.quit();
+    }
+}
+
+
+/**
+ * @return {[string]}
+ * @function testNIKSudahTerdaftar
+ * @assert {[NIK Sudah terdaftar]}
+ */
+async function testNIKSudahTerdaftar(){
+    const inputData = [
+        { nik: '3202080504910003', nama: 'suhanda', pass: 'a123456F', repass: 'a123456F' },
+    ];
+
+    let driver;
+
+    try{
+        driver = await new Builder().forBrowser("chrome").build();
+
+        driver.manage().window().maximize();
+
+        //alamat web
+        await driver.get(url);
+
+        await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
+        await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
+        await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
+        await driver.findElement(By.id("confirmPassword")).sendKeys(inputData[0].repass);
+
+        //checkbox checked
+        const checkbox = await driver.findElement(By.xpath("//div[@class='login_settingRememberMe']/input[@id='rememberme']"));
+        // Gulir ke elemen
+        await driver.executeScript('arguments[0].scrollIntoView(false)', checkbox);
+        await driver.sleep(500);
+        // Klik checkbox
+        await checkbox.click();
+
+        // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
+        await driver.sleep(10000);
+
+        //click button daftar
+        const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
+        button.click();
+
+        await driver.wait(until.elementLocated(By.className('swal2-popup')), 5000);
+
+        // Handle SweetAlert 2 if it appears
+        // Get SweetAlert text
+        const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
+        const sweetAlertText = await sweetAlertTextElement.getText();
+
+        assert.strictEqual(sweetAlertText, "NIK Sudah terdaftar");
+        console.log('Test NIK sudah terdaftar passed...');
+
+    }
+    catch(error){
+        console.log('Test NIK sudah terdaftar failed...');
+        console.error("Error occurred:", error.message);
+    }finally{
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
 
 //run all test
 async function runTests() {
+    await testNIKNull();
     await testNIKles16();
     await testNIKmore16();
-    await testNIKNull();
+    await testNIKTglSalah();
+    await testNIKBulanSalah();
+    await testNIKSudahTerdaftar();
 }
 
 runTests();

@@ -64,9 +64,8 @@ async function passwordNull(){
     }catch(error){
         console.log('Test Password NULL failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
@@ -123,9 +122,8 @@ async function passworLess6(){
     }catch(error){
         console.log('Test Password Less 6 failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
@@ -137,7 +135,7 @@ async function passworLess6(){
  */
 async function passwordNotalfalower(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123', repass: '123' },
+        { nik: '3202080504910003', nama: 'suhanda', pass: '123567', repass: '123567' },
     ];
 
     let driver;
@@ -181,9 +179,8 @@ async function passwordNotalfalower(){
     }catch(error){
         console.log('Test Password huruf kecil failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
@@ -241,9 +238,8 @@ async function passwordConfirmNull(){
     }catch(error){
         console.log('Test Password Confirm Not Same failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
@@ -299,9 +295,8 @@ async function passworConfirmNotSame(){
     }catch(error){
         console.log('Test Password Confirm Not Same failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }

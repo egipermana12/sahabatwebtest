@@ -63,16 +63,25 @@ async function testNamaNull(){
     }catch(error){
         console.log('Test Nama NULL failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
 
-/*
-* Nama Sangat panjang
-*/
+/**
+ * @return {string}
+ * @function testNamaNonAlfhabet
+ * @assert {'nama tidak boleh angka'}
+ */
+async function testNamaNonAlfhabet(){}
+
+/**
+ * @return {string}
+ * @function testNamaTooLong
+ * @assert {'nama terlalu panjang'}
+ */
+async function testNamaTooLong(){}
 
 
 //run all test

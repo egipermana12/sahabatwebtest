@@ -54,9 +54,8 @@ async function cbSetujuNotCheck(){
     }catch(error){
         console.log('Test CB setuju failed...');
         console.error("Error occurred:", error.message);
-        await driver.quit();
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
