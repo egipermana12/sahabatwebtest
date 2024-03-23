@@ -385,7 +385,7 @@ async function testNIKSudahTerdaftar(){
         const sweetAlertTextElement = await driver.findElement(By.className('swal2-html-container'));
         const sweetAlertText = await sweetAlertTextElement.getText();
 
-        assert.strictEqual(sweetAlertText, "NIK Sudah terdaftar");
+        assert.strictEqual(sweetAlertText, "NIK sudah terdaftar");
         console.log('Test NIK sudah terdaftar passed...');
 
     }

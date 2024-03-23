@@ -16,7 +16,7 @@ const url = `${process.env.BASE_URL}register`;
  */
 async function cbSetujuNotCheck(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F' },
     ];
 
     let driver;
@@ -28,6 +28,8 @@ async function cbSetujuNotCheck(){
         //alamat web
         await driver.get(url);
 
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);

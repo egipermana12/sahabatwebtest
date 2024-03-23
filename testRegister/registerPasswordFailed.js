@@ -16,7 +16,7 @@ const url = `${process.env.BASE_URL}register`;
  */
 async function passwordNull(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '', repass: '' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: '', repass: '' },
     ];
 
     let driver;
@@ -32,6 +32,9 @@ async function passwordNull(){
         await driver.executeScript("document.getElementById('password').removeAttribute('required');");
         await driver.executeScript("document.getElementById('confirmPassword').removeAttribute('required');");
 
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
+
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
         await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
@@ -46,7 +49,7 @@ async function passwordNull(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -78,7 +81,7 @@ async function passwordNull(){
  */
 async function passworLess6(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123', repass: '123' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: '123', repass: '123' },
     ];
 
     let driver;
@@ -89,6 +92,10 @@ async function passworLess6(){
 
         //alamat web
         await driver.get(url);
+
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
@@ -104,7 +111,7 @@ async function passworLess6(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -135,7 +142,7 @@ async function passworLess6(){
  */
 async function passwordNotalfalower(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123567', repass: '123567' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: '123567', repass: '123567' },
     ];
 
     let driver;
@@ -146,6 +153,10 @@ async function passwordNotalfalower(){
 
         //alamat web
         await driver.get(url);
+
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
@@ -161,7 +172,7 @@ async function passwordNotalfalower(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -192,7 +203,7 @@ async function passwordNotalfalower(){
  */
 async function passwordConfirmNull(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123456', repass: '' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: '123456', repass: '' },
     ];
 
     let driver;
@@ -204,6 +215,10 @@ async function passwordConfirmNull(){
         //alamat web
         await driver.get(url);
 
+
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
          await driver.executeScript("document.getElementById('confirmPassword').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
@@ -220,7 +235,7 @@ async function passwordConfirmNull(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -234,9 +249,9 @@ async function passwordConfirmNull(){
         const sweetAlertText = await sweetAlertTextElement.getText();
 
         assert.strictEqual(sweetAlertText, "Confirm Password Salah!");
-        console.log('Test Password Confirm Not Same passed...');
+        console.log('Test Password Confirm Null passed...');
     }catch(error){
-        console.log('Test Password Confirm Not Same failed...');
+        console.log('Test Password Confirm Null failed...');
         console.error("Error occurred:", error.message);
     }finally{
         await driver.sleep(3000);
@@ -251,7 +266,7 @@ async function passwordConfirmNull(){
  */
 async function passworConfirmNotSame(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: '123', repass: '1234' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: 'a123456F', repass: '1234' },
     ];
 
     let driver;
@@ -262,6 +277,9 @@ async function passworConfirmNotSame(){
 
         //alamat web
         await driver.get(url);
+
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("fmnama")).sendKeys(inputData[0].nama);
@@ -277,7 +295,7 @@ async function passworConfirmNotSame(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -304,11 +322,11 @@ async function passworConfirmNotSame(){
 
 //run all test
 async function runTest(){
-    passwordNull();
-    passworLess6();
-    passwordNotalfalower();
-    passworConfirmNotSame();
-    passwordConfirmNull();
+    await passwordNull();
+    await passworLess6();
+    await passwordNotalfalower();
+    await passwordConfirmNull();
+    await passworConfirmNotSame();
 }
 
 runTest();

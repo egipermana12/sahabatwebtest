@@ -34,13 +34,15 @@ async function testNIKNull(){
 
         //remove required nik
         await driver.executeScript("document.getElementById('fmnik').removeAttribute('required');");
+        //remove required nik
+        await driver.executeScript("document.getElementById('fmcaptcha').removeAttribute('required');");
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);
       
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//a[@id="btLogin"]/button'));
@@ -90,6 +92,7 @@ async function testNIKBelumTerdaftar(){
 
         //remove required nik
         await driver.executeScript("document.getElementById('fmnik').removeAttribute('required');");
+
 
         await driver.findElement(By.id("fmnik")).sendKeys(inputData[0].nik);
         await driver.findElement(By.id("password")).sendKeys(inputData[0].pass);

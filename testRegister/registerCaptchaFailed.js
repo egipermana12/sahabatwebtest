@@ -16,7 +16,7 @@ const url = `${process.env.BASE_URL}register`;
  */
 async function testCaptchaNull(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F' },
     ];
 
     let driver;
@@ -45,7 +45,7 @@ async function testCaptchaNull(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
@@ -76,7 +76,7 @@ async function testCaptchaNull(){
  */
 async function testCaptchNotSame(){
     const inputData = [
-        { nik: '3202080504910003', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F', captcha: '890VWB' },
+        { nik: '3202080504910005', nama: 'suhanda', pass: 'a12345F', repass: 'a12345F', captcha: '890VWB' },
     ];
 
     let driver;
@@ -104,7 +104,7 @@ async function testCaptchNotSame(){
         await checkbox.click();
 
         // Di sini kita hanya menunggu 15 detik untuk tujuan captcha
-        await driver.sleep(10000);
+        await driver.sleep(3000);
 
         //click button daftar
         const button = await driver.findElement(By.xpath('//button[@name="btRegister"]'));
