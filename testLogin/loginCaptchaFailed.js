@@ -55,7 +55,7 @@ async function testCaptchaNull(){
         console.log('Test Captcha NULL failed...');
         console.error("Error occurred:", error.message);
     }finally{
-         await driver.sleep(3000);
+        await driver.sleep(3000);
         await driver.quit();
     }
 }
